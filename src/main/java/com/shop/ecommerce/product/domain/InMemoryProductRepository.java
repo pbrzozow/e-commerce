@@ -8,6 +8,7 @@ import org.springframework.data.domain.Pageable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 class InMemoryProductRepository implements ProductRepository {
     Map<String,Product> products = new HashMap<>();

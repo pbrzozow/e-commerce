@@ -13,14 +13,26 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Document
+@Document(collection = "")
 class Product {
     @Id
     private String id;
+    private String name;
+    private Double price;
+    private Long availableAmount;
+    private String description;
+    private String image;
+    private Category category;
 
     ProductDto dto() {
         return ProductDto.builder()
                 .id(id)
+                .name(name)
+                .price(price)
+                .availableAmount(availableAmount)
+                .description(description)
+                .image(image)
+                .category(category.dto())
                 .build();
     }
 }

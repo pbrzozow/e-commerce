@@ -1,5 +1,6 @@
 package com.shop.ecommerce.product.domain;
 
+import com.shop.ecommerce.product.dto.CategoryDto;
 import com.shop.ecommerce.product.dto.ProductDto;
 import com.shop.ecommerce.product.dto.ProductNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
@@ -15,6 +16,8 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class ProductFacadeTest {
     private ProductFacade productFacade;
+    private ProductDto bag = createProductDto("001","Leather Bag",40.5);
+    private ProductDto wallet = createProductDto("002","Leather wallet", 20.5);
 
     @BeforeEach
     void setUp() {
@@ -22,40 +25,42 @@ public class ProductFacadeTest {
     }
 
     @Test
-    void shouldReturnSavedProducts(){
-        String id = "2";
-        ProductDto dto = new ProductDto(id);
-        productFacade.add(dto);
-        Page<ProductDto> product = productFacade.findAll(Pageable.ofSize(10));
-        assertEquals(List.of(dto),product.stream().toList());
+    void shouldReturnSavedProduct(){
+        productFacade.add(bag);
+        Page<ProductDto> products = productFacade.findAll(Pageable.ofSize(10));
+        assertEquals(List.of(bag),products.stream().toList());
     }
 
     @Test
     void shouldFindSavedProductById(){
-        String id = "3";
-        ProductDto dto = new ProductDto(id);
-        productFacade.add(dto);
-        ProductDto product = productFacade.show(id);
-        assertEquals(dto,product);
+
+        productFacade.add(bag);
+        ProductDto product = productFacade.show(bag.getId());
+        assertEquals(bag,product);
     }
     @Test
     void shouldSaveProductSuccessfully(){
-        String id1 = "5";
-        ProductDto dto1 = new ProductDto(id1);
-        String id2 = "4";
-        ProductDto dto2 = new ProductDto(id2);
 
-        productFacade.add(dto1);
-        productFacade.add(dto2);
+        productFacade.add(bag);
+        productFacade.add(wallet);
 
-        ProductDto product1 = productFacade.show(id1);
-        ProductDto product2 = productFacade.show(id2);
+        ProductDto retrievedBag = productFacade.show(bag.getId());
+        ProductDto retrievedWallet = productFacade.show(wallet.getId());
 
-        assertEquals(dto1,product1);
-        assertEquals(dto2,product2);
+        assertEquals(bag,retrievedBag);
+        assertEquals(wallet,retrievedWallet);
     }
     @Test
     void shouldThrowExceptionWhenProductDoesNotExist(){
-        assertThrows(ProductNotFoundException.class,()->productFacade.show("5"));
+        assertThrows(ProductNotFoundException.class,()->productFacade.show(bag.getId()));
+    }
+
+    static private ProductDto createProductDto(String id,String name, Double price ) {
+        return ProductDto.builder()
+                .id(id)
+                .name(name)
+                .price(price)
+                .category(CategoryDto.LEATHER)
+                .build();
     }
 }

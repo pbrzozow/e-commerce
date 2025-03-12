@@ -8,7 +8,7 @@ import org.springframework.data.domain.Pageable;
 import static java.util.Objects.requireNonNull;
 
 @RequiredArgsConstructor
-class ProductFacade {
+public class ProductFacade {
     private final ProductRepository productRepository;
     private final ProductCreator productCreator;
 
@@ -27,6 +27,6 @@ class ProductFacade {
     public Page<ProductDto> findAll(Pageable pageable){
         requireNonNull(pageable);
         return productRepository
-                .findAll(pageable).map(product->product.dto());
+                .findAll(pageable).map(Product::dto);
     }
 }
