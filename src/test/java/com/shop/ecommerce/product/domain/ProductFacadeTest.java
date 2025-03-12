@@ -16,6 +16,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class ProductFacadeTest {
     private ProductFacade productFacade;
+
     private ProductDto bag = createProductDto("001","Leather Bag",40.5);
     private ProductDto wallet = createProductDto("002","Leather wallet", 20.5);
 
