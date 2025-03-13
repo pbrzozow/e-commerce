@@ -2,7 +2,7 @@ package com.shop.ecommerce.cart.domain;
 
 import com.shop.ecommerce.cart.dto.CartDto;
 import com.shop.ecommerce.cart.dto.CartItemDto;
-import com.shop.ecommerce.costcalculator.domain.CostCalculatorFacade;
+import com.shop.ecommerce.costcalculator.CostCalculatorFacade;
 import com.shop.ecommerce.infrastructure.authentication.CurrentUserGetter;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

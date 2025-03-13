@@ -1,4 +1,4 @@
-package com.shop.ecommerce.costcalculator.domain;
+package com.shop.ecommerce.costcalculator;
 
 import com.shop.ecommerce.cart.dto.CartItemDto;
 import com.shop.ecommerce.product.domain.ProductFacade;

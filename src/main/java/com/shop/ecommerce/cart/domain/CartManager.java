@@ -1,11 +1,10 @@
 package com.shop.ecommerce.cart.domain;
 
-import com.shop.ecommerce.costcalculator.domain.CostCalculatorFacade;
+import com.shop.ecommerce.costcalculator.CostCalculatorFacade;
 import com.shop.ecommerce.infrastructure.authentication.CurrentUserGetter;
 import lombok.RequiredArgsConstructor;
 import java.util.ArrayList;
 import java.util.Objects;
-import java.util.Optional;
 
 
 @RequiredArgsConstructor
@@ -51,12 +50,16 @@ class CartManager {
     Cart getCart(){
         String username = userGetter.getSignedInUsername().orElseThrow();
         Cart cart = cartRepository.findByUsername(username);
-        if (cart==null){
-            cart = new Cart(username,new ArrayList<>(),0);
-        }else {
-            double price = getPrice(cart);
-            cart.setPrice(price);
-        }
+        return cart!=null ? cartWithPrice(cart): initializeCart(username);
+    }
+
+    private static Cart initializeCart(String username) {
+        return new Cart(username,new ArrayList<>(),0);
+    }
+
+    private Cart cartWithPrice(Cart cart) {
+        double price = getPrice(cart);
+        cart.setPrice(price);
         return cart;
     }
 

@@ -2,7 +2,6 @@ package com.shop.ecommerce.cart.domain;
 
 import com.shop.ecommerce.cart.dto.CartDto;
 import com.shop.ecommerce.cart.dto.CartItemDto;
-import com.shop.ecommerce.costcalculator.domain.CostCalculatorFacade;
 import lombok.RequiredArgsConstructor;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,8 +24,6 @@ public class CartFacade {
         Cart cart = cartManager.getCart();
         return cart.dto();
     }
-
-
 
     public CartItemDto update(String id, int quantity){
         requireNonNull(id);

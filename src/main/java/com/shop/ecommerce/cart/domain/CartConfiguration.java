@@ -1,6 +1,6 @@
 package com.shop.ecommerce.cart.domain;
 
-import com.shop.ecommerce.costcalculator.domain.CostCalculatorFacade;
+import com.shop.ecommerce.costcalculator.CostCalculatorFacade;
 import com.shop.ecommerce.infrastructure.authentication.CurrentUserGetter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
