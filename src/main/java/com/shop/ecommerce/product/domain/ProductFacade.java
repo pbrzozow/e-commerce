@@ -4,9 +4,10 @@ import com.shop.ecommerce.product.dto.ProductDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-
+import org.springframework.transaction.annotation.Transactional;
 import static java.util.Objects.requireNonNull;
 
+@Transactional
 @RequiredArgsConstructor
 public class ProductFacade {
     private final ProductRepository productRepository;

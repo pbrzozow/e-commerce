@@ -17,11 +17,13 @@ import java.util.List;
 class Cart {
     private String username;
     private List<CartItem> items;
+    private double price;
 
     CartDto dto(){
         return CartDto.builder()
                 .username(username)
                 .items(items.stream().map(CartItem::dto).toList())
+                .price(price)
                 .build();
     }
 }

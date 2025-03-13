@@ -2,18 +2,17 @@ package com.shop.ecommerce.cart.domain;
 
 import com.shop.ecommerce.cart.dto.CartDto;
 import com.shop.ecommerce.cart.dto.CartItemDto;
-import com.shop.ecommerce.infrastructure.authentication.CurrentUserGetter;
-import com.shop.ecommerce.product.dto.ProductDto;
+import com.shop.ecommerce.costcalculator.domain.CostCalculatorFacade;
 import lombok.RequiredArgsConstructor;
-
+import org.springframework.transaction.annotation.Transactional;
 
 
 import static java.util.Objects.requireNonNull;
 
+@Transactional
 @RequiredArgsConstructor
 public class CartFacade {
     private final CartManager cartManager;
-
 
     public CartItemDto add(String id,int quantity){
         requireNonNull(id);
@@ -23,8 +22,11 @@ public class CartFacade {
     }
 
     public CartDto getCart(){
-        return cartManager.getCart().dto();
+        Cart cart = cartManager.getCart();
+        return cart.dto();
     }
+
+
 
     public CartItemDto update(String id, int quantity){
         requireNonNull(id);

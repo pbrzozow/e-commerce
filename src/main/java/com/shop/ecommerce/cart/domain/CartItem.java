@@ -20,4 +20,7 @@ class CartItem {
                 .quantity(quantity)
                 .build();
     }
+    int increaseQuantity(int num){
+        return quantity+=num;
+    }
 }

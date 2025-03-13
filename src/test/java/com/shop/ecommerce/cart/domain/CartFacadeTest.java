@@ -2,6 +2,7 @@ package com.shop.ecommerce.cart.domain;
 
 import com.shop.ecommerce.cart.dto.CartDto;
 import com.shop.ecommerce.cart.dto.CartItemDto;
+import com.shop.ecommerce.costcalculator.domain.CostCalculatorFacade;
 import com.shop.ecommerce.infrastructure.authentication.CurrentUserGetter;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -10,6 +11,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -19,11 +21,13 @@ public class CartFacadeTest {
 
     private final String itemId = "1";
 
-
     @BeforeEach
     void setUp(){
+
         currentUserGetter = mock();
-        cartFacade = new CartConfiguration().cartFacade(currentUserGetter);
+        CostCalculatorFacade calculatorFacade = mock();
+        when(calculatorFacade.calculate(any())).thenReturn(0.0);
+        cartFacade = new CartConfiguration().cartFacade(currentUserGetter,calculatorFacade);
     }
 
     @Test
@@ -55,7 +59,9 @@ public class CartFacadeTest {
         when(currentUserGetter.getSignedInUsername()).thenReturn(Optional.of("Kasia"));
         CartDto cart = cartFacade.getCart();
 
-        CartDto emptyCart = new CartDto("Kasia",List.of());
+        CartDto emptyCart = CartDto.builder().username("Kasia")
+                .items(List.of())
+                .build();
         assertNotNull(cart);
         assertEquals(emptyCart,cart);
     }
@@ -85,7 +91,7 @@ public class CartFacadeTest {
         cartFacade.add(itemId, 4);
 
         CartDto cart = cartFacade.getCart();
-        CartDto expected = new CartDto("Kasia",List.of(new CartItemDto(itemId,5)));
+        CartDto expected =  new CartDto("Kasia",List.of(new CartItemDto(itemId,5)),0.0);
         assertEquals(expected,cart);
     }
 
