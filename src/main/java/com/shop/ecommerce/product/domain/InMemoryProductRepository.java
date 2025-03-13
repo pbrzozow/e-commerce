@@ -9,9 +9,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
 
 class InMemoryProductRepository implements ProductRepository {
-    Map<String,Product> products = new HashMap<>();
+    private final ConcurrentHashMap<String,Product> products = new ConcurrentHashMap<>();
     @Override
     public Product save(Product product) {
         products.put(product.getId(),product);

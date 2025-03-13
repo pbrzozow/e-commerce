@@ -8,15 +8,14 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 class CartConfiguration {
 
-    @Autowired
-    private CurrentUserGetter currentUserGetter;
 
-    CartFacade cartFacade(){
-        return cartFacade(new InMemoryCartRepository());
+    CartFacade cartFacade(CurrentUserGetter currentUserGetter){
+        return cartFacade(new InMemoryCartRepository(),currentUserGetter);
     }
 
     @Bean
-    CartFacade cartFacade(CartRepository cartRepository){
-        return new CartFacade(cartRepository,currentUserGetter);
+    CartFacade cartFacade(CartRepository cartRepository,CurrentUserGetter currentUserGetter){
+        CartManager cartManager = new CartManager(cartRepository, currentUserGetter);
+        return new CartFacade(cartManager);
     }
 }
