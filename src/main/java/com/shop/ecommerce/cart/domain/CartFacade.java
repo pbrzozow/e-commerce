@@ -6,9 +6,7 @@ import com.shop.ecommerce.infrastructure.authentication.CurrentUserGetter;
 import com.shop.ecommerce.product.dto.ProductDto;
 import lombok.RequiredArgsConstructor;
 
-import java.util.ArrayList;
-import java.util.Objects;
-import java.util.Optional;
+
 
 import static java.util.Objects.requireNonNull;
 
@@ -17,20 +15,28 @@ public class CartFacade {
     private final CartManager cartManager;
 
 
-    CartItemDto add(ProductDto productDto,int quantity){
-        requireNonNull(productDto);
-        CartItem item = cartManager.add(productDto, quantity);
+    public CartItemDto add(String id,int quantity){
+        requireNonNull(id);
+        validateQuantity(quantity);
+        CartItem item = cartManager.add(id, quantity);
         return item.dto();
     }
 
-    CartDto getCart(){
+    public CartDto getCart(){
         return cartManager.getCart().dto();
     }
 
-    CartItemDto update(ProductDto productDto, int quantity){
-        requireNonNull(productDto);
-        CartItem item = cartManager.update(productDto, quantity);
+    public CartItemDto update(String id, int quantity){
+        requireNonNull(id);
+        validateQuantity(quantity);
+        CartItem item = cartManager.update(id, quantity);
         return item.dto();
+    }
+
+    private static void validateQuantity(int quantity) {
+        if (quantity <0){
+            throw new IllegalArgumentException("Provided quantity was below zero.");
+        }
     }
 
 }

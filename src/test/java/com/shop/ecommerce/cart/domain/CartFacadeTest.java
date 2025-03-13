@@ -3,8 +3,6 @@ package com.shop.ecommerce.cart.domain;
 import com.shop.ecommerce.cart.dto.CartDto;
 import com.shop.ecommerce.cart.dto.CartItemDto;
 import com.shop.ecommerce.infrastructure.authentication.CurrentUserGetter;
-import com.shop.ecommerce.product.dto.CategoryDto;
-import com.shop.ecommerce.product.dto.ProductDto;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -19,7 +17,8 @@ public class CartFacadeTest {
     private CartFacade cartFacade;
     private CurrentUserGetter currentUserGetter;
 
-    ProductDto leatherBag = ProductDto.builder().id("001").name("Leather Bag").price(40.4).category(CategoryDto.LEATHER).build();
+    private final String itemId = "1";
+
 
     @BeforeEach
     void setUp(){
@@ -30,25 +29,24 @@ public class CartFacadeTest {
     @Test
     void shouldAddAProductToCartSuccessfully(){
         when(currentUserGetter.getSignedInUsername()).thenReturn(Optional.of("Kasia"));
-
-        cartFacade.add(leatherBag,2);
+        cartFacade.add(itemId,2);
 
         CartDto cart = cartFacade.getCart();
 
-        List<CartItemDto> expected = List.of(new CartItemDto(leatherBag.getId(), 2));
+        List<CartItemDto> expected = List.of(new CartItemDto(itemId, 2));
         assertEquals(expected,cart.getItems());
     }
     @Test
     void shouldUpdateCartSuccessfully(){
         when(currentUserGetter.getSignedInUsername()).thenReturn(Optional.of("Kasia"));
 
-        cartFacade.add(leatherBag,2);
+        cartFacade.add(itemId,2);
 
-        cartFacade.update(leatherBag,1);
+        cartFacade.update(itemId,1);
 
         CartDto cart = cartFacade.getCart();
 
-        List<CartItemDto> expected = List.of(new CartItemDto(leatherBag.getId(), 1));
+        List<CartItemDto> expected = List.of(new CartItemDto(itemId, 1));
         assertEquals(expected,cart.getItems());
     }
 
@@ -65,9 +63,9 @@ public class CartFacadeTest {
     void shouldDeleteProductIfQuantityEqualsZero(){
         when(currentUserGetter.getSignedInUsername()).thenReturn(Optional.of("Kasia"));
 
-        cartFacade.add(leatherBag, 1);
+        cartFacade.add(itemId, 1);
 
-        cartFacade.update(leatherBag, 0);
+        cartFacade.update(itemId, 0);
 
         CartDto cart = cartFacade.getCart();
         assertEquals(List.of(),cart.getItems());
@@ -77,19 +75,24 @@ public class CartFacadeTest {
     void shouldThrowExceptionWhenAddingQuantityBelowZero(){
         when(currentUserGetter.getSignedInUsername()).thenReturn(Optional.of("Kasia"));
 
-        assertThrows(IllegalArgumentException.class,()->cartFacade.add(leatherBag,-1));
+        assertThrows(IllegalArgumentException.class,()->cartFacade.add(itemId,-1));
     }
     @Test
-    void shouldThrowExceptionWhenAddingQuantityEqualsZero(){
+    void shouldAddTwoProductsWithTheSameId(){
         when(currentUserGetter.getSignedInUsername()).thenReturn(Optional.of("Kasia"));
 
-        assertThrows(IllegalArgumentException.class,()->cartFacade.add(leatherBag,0));
+        cartFacade.add(itemId, 1);
+        cartFacade.add(itemId, 4);
+
+        CartDto cart = cartFacade.getCart();
+        CartDto expected = new CartDto("Kasia",List.of(new CartItemDto(itemId,5)));
+        assertEquals(expected,cart);
     }
 
     @Test
     void shouldThrowExceptionWhenUpdateQuantityBelowZero(){
         when(currentUserGetter.getSignedInUsername()).thenReturn(Optional.of("Kasia"));
 
-        assertThrows(IllegalArgumentException.class,()->cartFacade.update(leatherBag,-1));
+        assertThrows(IllegalArgumentException.class,()->cartFacade.update(itemId,-1));
     }
 }
