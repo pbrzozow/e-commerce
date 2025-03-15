@@ -11,4 +11,8 @@ class CartFetcher {
     CartDto getCart(){
         return cartFacade.getCart();
     }
+
+    CartDto clearCart(){
+        return cartFacade.clearCart();
+    }
 }

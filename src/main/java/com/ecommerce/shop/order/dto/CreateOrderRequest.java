@@ -1,4 +1,3 @@
 package com.ecommerce.shop.order.dto;
 
-record CustomerDto() {
-}
+record CreateOrderRequest() {}
