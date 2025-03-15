@@ -14,6 +14,7 @@ class CartManager {
     private final CurrentUserGetter userGetter;
     private final CostCalculatorFacade calculatorFacade;
 
+
     CartItem add(String id, int quantity){
         Cart userCart = getCart();
         CartItem cartItem = getCartItem(id, userCart);
@@ -34,6 +35,12 @@ class CartManager {
         CartItem newItem = new CartItem(id, 0);
         userCart.getItems().add(newItem);
         return newItem;
+    }
+
+    Cart clearCart(){
+        Cart cart = getCart();
+        cart.setItems(new ArrayList<>());
+        return cartRepository.save(cart);
     }
 
     CartItem update(String id, int quantity){

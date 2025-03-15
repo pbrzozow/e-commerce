@@ -25,6 +25,7 @@ public class CartFacadeTest {
     void setUp(){
 
         currentUserGetter = mock();
+        when(currentUserGetter.getSignedInUsername()).thenReturn(Optional.of("Kasia"));
         CostCalculatorFacade calculatorFacade = mock();
         when(calculatorFacade.calculate(any())).thenReturn(0.0);
         cartFacade = new CartConfiguration().cartFacade(currentUserGetter,calculatorFacade);
@@ -32,7 +33,6 @@ public class CartFacadeTest {
 
     @Test
     void shouldAddAProductToCartSuccessfully(){
-        when(currentUserGetter.getSignedInUsername()).thenReturn(Optional.of("Kasia"));
         cartFacade.add(itemId,2);
 
         CartDto cart = cartFacade.getCart();
@@ -42,8 +42,6 @@ public class CartFacadeTest {
     }
     @Test
     void shouldUpdateCartSuccessfully(){
-        when(currentUserGetter.getSignedInUsername()).thenReturn(Optional.of("Kasia"));
-
         cartFacade.add(itemId,2);
 
         cartFacade.update(itemId,1);
@@ -56,7 +54,6 @@ public class CartFacadeTest {
 
     @Test
     void shouldReturnAnEmptyCartWhenUserHaveNotAddedAnything(){
-        when(currentUserGetter.getSignedInUsername()).thenReturn(Optional.of("Kasia"));
         CartDto cart = cartFacade.getCart();
 
         CartDto emptyCart = CartDto.builder().username("Kasia")
@@ -67,7 +64,6 @@ public class CartFacadeTest {
     }
     @Test
     void shouldDeleteProductIfQuantityEqualsZero(){
-        when(currentUserGetter.getSignedInUsername()).thenReturn(Optional.of("Kasia"));
 
         cartFacade.add(itemId, 1);
 
@@ -76,17 +72,21 @@ public class CartFacadeTest {
         CartDto cart = cartFacade.getCart();
         assertEquals(List.of(),cart.getItems());
     }
+    @Test
+    void shouldClearCartSuccessfully(){
+    cartFacade.add(itemId,1);
+    CartDto clearedCart = cartFacade.clearCart();
+
+    assertEquals(new CartDto("Kasia",List.of(),0),clearedCart);
+    }
 
     @Test
     void shouldThrowExceptionWhenAddingQuantityBelowZero(){
-        when(currentUserGetter.getSignedInUsername()).thenReturn(Optional.of("Kasia"));
 
         assertThrows(IllegalArgumentException.class,()->cartFacade.add(itemId,-1));
     }
     @Test
     void shouldAddTwoProductsWithTheSameId(){
-        when(currentUserGetter.getSignedInUsername()).thenReturn(Optional.of("Kasia"));
-
         cartFacade.add(itemId, 1);
         cartFacade.add(itemId, 4);
 
@@ -97,7 +97,6 @@ public class CartFacadeTest {
 
     @Test
     void shouldThrowExceptionWhenUpdateQuantityBelowZero(){
-        when(currentUserGetter.getSignedInUsername()).thenReturn(Optional.of("Kasia"));
 
         assertThrows(IllegalArgumentException.class,()->cartFacade.update(itemId,-1));
     }

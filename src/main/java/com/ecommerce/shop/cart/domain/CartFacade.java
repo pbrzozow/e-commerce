@@ -2,7 +2,6 @@ package com.ecommerce.shop.cart.domain;
 
 import com.ecommerce.shop.cart.dto.CartDto;
 import com.ecommerce.shop.cart.dto.CartItemDto;
-import com.ecommerce.shop.order.domain.spi.CartPort;
 import lombok.RequiredArgsConstructor;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,6 +22,11 @@ public class CartFacade {
 
     public CartDto getCart(){
         Cart cart = cartManager.getCart();
+        return cart.dto();
+    }
+
+    public CartDto clearCart(){
+        Cart cart = cartManager.clearCart();
         return cart.dto();
     }
 
