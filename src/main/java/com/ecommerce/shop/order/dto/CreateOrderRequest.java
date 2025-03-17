@@ -1,3 +1,5 @@
 package com.ecommerce.shop.order.dto;
 
-public record CreateOrderRequest() {}
+import jakarta.annotation.Nonnull;
+
+public record CreateOrderRequest(@Nonnull CustomerDto customerDto, @Nonnull PaymentDetails paymentDetails) {}

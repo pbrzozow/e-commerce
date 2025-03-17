@@ -1,6 +1,9 @@
 package com.ecommerce.shop.order.domain;
 
 import com.ecommerce.shop.cart.dto.CartDto;
+import com.ecommerce.shop.order.dto.CustomerDto;
+import com.ecommerce.shop.order.dto.OrderDto;
+import com.ecommerce.shop.order.dto.OrderStatusDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -16,8 +19,19 @@ import java.time.LocalDateTime;
 class Order {
     @Id
     private String id;
-    private Customer customer;
+    private CustomerInfo customerInfo;
     private CartDto cartDto;
     private LocalDateTime createdAt;
     private OrderStatus status;
+
+    OrderDto dto() {
+        CustomerDto customerDto = new CustomerDto(customerInfo.getFirstName(),customerInfo.getLastName(),customerInfo.getEmail(),customerInfo.getAddress().dto());
+        return OrderDto.builder()
+                .customerDto(customerDto)
+                .cartDto(cartDto)
+                .createdAt(createdAt)
+                .id(id)
+                .status(OrderStatusDto.valueOf(status.name()))
+                .build();
+    }
 }

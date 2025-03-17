@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-class Customer {
+class CustomerInfo {
     private String firstName;
     private String lastName;
     private String email;

@@ -1,4 +1,4 @@
 package com.ecommerce.shop.order.domain.spi.dto;
 
-public record PaymentResponse() {
+public record PaymentResponse(String orderId,PaymentStatus paymentStatus) {
 }

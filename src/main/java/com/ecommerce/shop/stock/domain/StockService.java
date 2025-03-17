@@ -1,5 +1,6 @@
 package com.ecommerce.shop.stock.domain;
 
+import com.ecommerce.shop.stock.dto.InsufficientStockException;
 import lombok.RequiredArgsConstructor;
 
 import static java.util.Objects.requireNonNull;
@@ -23,5 +24,12 @@ class StockService {
             stock.setProductId(productId);
         }
         return stock;
+    }
+    ProductStock allocate(String productId, long amount){
+        ProductStock stock = getStock(productId);
+        if (stock.getAvailable()-amount<0){
+            throw new InsufficientStockException("");
+        }
+        return update(productId,amount);
     }
 }

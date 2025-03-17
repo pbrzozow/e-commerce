@@ -22,6 +22,11 @@ public class StockFacade {
         ProductStock stock = stockService.getStock(productId);
         return stock.dto();
     }
+    public StockDto allocate(String productId,long amount){
+        requireNonNull(productId);
+        ProductStock stock = stockService.allocate(productId, amount);
+        return stock.dto();
+    }
 
     private static void validateQuantity(long quantity) {
         if (quantity <0){
