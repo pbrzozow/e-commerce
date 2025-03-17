@@ -1,4 +1,8 @@
 package com.ecommerce.shop.order.dto;
 
-record CustomerDto() {
+import lombok.Builder;
+
+@Builder
+public record CustomerDto(String firstName,
+         String lastName, String email,AddressDto address) {
 }

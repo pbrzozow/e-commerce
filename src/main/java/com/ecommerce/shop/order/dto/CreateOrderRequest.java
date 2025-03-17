@@ -1,3 +1,3 @@
 package com.ecommerce.shop.order.dto;
 
-record CreateOrderRequest() {}
+public record CreateOrderRequest() {}

@@ -16,6 +16,7 @@ import java.time.LocalDateTime;
 class Order {
     @Id
     private String id;
+    private Customer customer;
     private CartDto cartDto;
     private LocalDateTime createdAt;
     private OrderStatus status;
