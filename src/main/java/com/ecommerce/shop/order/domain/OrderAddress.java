@@ -7,7 +7,7 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-class Address {
+class OrderAddress {
     private String street;
     private String postalCode;
     private String country;

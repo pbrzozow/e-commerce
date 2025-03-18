@@ -14,14 +14,14 @@ class CustomerInfo {
     private String firstName;
     private String lastName;
     private String email;
-    private Address address;
+    private OrderAddress orderAddress;
 
     CustomerDto dto(){
         return CustomerDto.builder()
                 .firstName(firstName)
                 .lastName(lastName)
                 .email(email)
-                .address(address.dto())
+                .address(orderAddress.dto())
                 .build();
     }
 }
