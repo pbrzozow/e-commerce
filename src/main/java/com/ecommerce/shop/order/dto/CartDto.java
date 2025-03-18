@@ -5,5 +5,5 @@ import lombok.Builder;
 import java.util.List;
 
 @Builder
-public record OrderCartDto(String username, List<OrderItemDto> items, double price) {
+public record CartDto(String username, List<ItemDto> items, double price) {
 }

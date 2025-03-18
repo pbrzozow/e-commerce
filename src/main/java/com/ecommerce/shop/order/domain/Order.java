@@ -1,5 +1,6 @@
 package com.ecommerce.shop.order.domain;
 
+import com.ecommerce.shop.order.domain.shared.Cart;
 import com.ecommerce.shop.order.dto.OrderDto;
 import com.ecommerce.shop.order.dto.OrderStatusDto;
 import lombok.AllArgsConstructor;
@@ -18,14 +19,14 @@ class Order {
     @Id
     private String id;
     private CustomerInfo customerInfo;
-    private OrderCart orderCart;
+    private Cart cart;
     private LocalDateTime createdAt;
     private OrderStatus status;
 
     OrderDto dto() {
         return OrderDto.builder()
                 .customerDto(customerInfo.dto())
-                .orderCartDto(orderCart.dto())
+                .cartDto(cart.dto())
                 .createdAt(createdAt)
                 .id(id)
                 .status(OrderStatusDto.valueOf(status.name()))
