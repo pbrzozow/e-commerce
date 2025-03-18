@@ -34,14 +34,12 @@ class OrderManager {
         }
         return orderRepository.save(order);
     }
-
     private void allocateStock(List<OrderItem> items) {
         for (OrderItem item : items) {
             String productId = item.getProductId();
             stockFacade.allocate(productId,item.getQuantity());
         }
     }
-
     Order ship(String id){
         Order order = orderRepository.findById(id);
         if (order.getStatus()==OrderStatus.PROCESSING){
@@ -50,9 +48,6 @@ class OrderManager {
         }
         return orderRepository.save(order);
     }
-
-
-
     Order cancel(String id){
         Order order = orderRepository.findById(id);
         if (order.getStatus()!=OrderStatus.DELIVERED){
@@ -61,7 +56,6 @@ class OrderManager {
         }
         return orderRepository.save(order);
     }
-
     Order refund(String id){
         Order order = orderRepository.findById(id);
         if (order.getStatus()!=OrderStatus.REFUNDED){
