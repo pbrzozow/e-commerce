@@ -1,6 +1,6 @@
-package com.ecommerce.shop.cart.domain;
+package com.ecommerce.shop.order.domain.shared;
 
-import com.ecommerce.shop.cart.dto.CartDto;
+import com.ecommerce.shop.order.dto.CartDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -14,15 +14,15 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @RedisHash(value = "cart")
-class Cart {
+public class Cart {
     private String username;
-    private List<CartItem> items;
+    private List<Item> items;
     private double price;
 
-    CartDto dto(){
+    public CartDto dto() {
         return CartDto.builder()
                 .username(username)
-                .items(items.stream().map(CartItem::dto).toList())
+                .items(items.stream().map(Item::dto).toList())
                 .price(price)
                 .build();
     }

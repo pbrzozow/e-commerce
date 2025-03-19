@@ -6,4 +6,6 @@ import com.ecommerce.shop.order.domain.spi.dto.ShipmentResponse;
 public interface ShipmentPort {
     ShipmentResponse ship(ShipmentRequest request);
 
+    ShipmentResponse cancel(String orderId);
+
 }

@@ -9,4 +9,9 @@ public class ShipmentAdapter implements ShipmentPort {
     public ShipmentResponse ship(ShipmentRequest request) {
         return null;
     }
+
+    @Override
+    public ShipmentResponse cancel(String orderId) {
+        return null;
+    }
 }
