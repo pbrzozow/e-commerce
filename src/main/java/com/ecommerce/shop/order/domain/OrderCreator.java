@@ -9,12 +9,12 @@ import java.time.LocalDateTime;
 
 class OrderCreator {
 
-    Order from(CreateOrderRequest request, Cart cart) {
+    Order from(CustomerDto customerDto, Cart cart) {
         return Order.builder()
                 .cart(cart)
                 .createdAt(LocalDateTime.now())
                 .status(OrderStatus.CREATED)
-                .customerInfo(mapToInfo(request.customerDto()))
+                .customerInfo(mapToInfo(customerDto))
                 .build();
     }
 

@@ -6,9 +6,9 @@ import com.ecommerce.shop.order.domain.shared.Item;
 import com.ecommerce.shop.order.dto.ItemDto;
 import com.ecommerce.shop.order.dto.exception.ItemNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-
 
 @RequiredArgsConstructor
 public class CartService {
@@ -16,7 +16,8 @@ public class CartService {
     private final ItemCreator itemCreator;
     private final CartRepository cartRepository;
 
-    public Item add(ItemDto itemDto) {
+    public Cart add(ItemDto itemDto) {
+        validateQuantity(itemDto.quantity());
         Cart userCart = getCart();
         Item cartItem = getCartItem(itemDto, userCart);
 
@@ -24,10 +25,9 @@ public class CartService {
             cartItem = itemCreator.from(itemDto);
             userCart.getItems().add(cartItem);
         }
-        cartItem.setQuantity(cartItem.getQuantity() + itemDto.quantity());
+        cartItem.setQuantity(itemDto.quantity());
 
-        cartRepository.save(userCart);
-        return cartItem;
+        return cartRepository.save(userCart);
     }
 
     private Item getCartItem(ItemDto itemDto, Cart userCart) {
@@ -42,10 +42,12 @@ public class CartService {
     public Cart clearCart() {
         Cart cart = getCart();
         cart.setItems(new ArrayList<>());
+        cart.setPrice(0);
         return cartRepository.save(cart);
     }
 
-    public Item update(String id, int quantity) {
+    public Cart update(String id, int quantity) {
+        validateQuantity(quantity);
         Cart cart = getCart();
 
         Item item = cart.getItems()
@@ -54,9 +56,12 @@ public class CartService {
                 .findFirst()
                 .orElseThrow(() -> new ItemNotFoundException(id));
 
-        item.setQuantity(quantity);
-        cartRepository.save(cart);
-        return item;
+        if (quantity == 0) {
+            cart.getItems().remove(item);
+        } else {
+            item.setQuantity(quantity);
+        }
+        return cartRepository.save(cart);
     }
 
 

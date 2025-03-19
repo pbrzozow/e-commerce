@@ -10,7 +10,7 @@ import lombok.RequiredArgsConstructor;
 import java.util.List;
 
 @RequiredArgsConstructor
-class OrderManager {
+class OrderService {
     private final OrderRepository orderRepository;
     private final StockFacade stockFacade;
     private final PaymentService paymentService;
@@ -20,7 +20,7 @@ class OrderManager {
 
     Order create(CreateOrderRequest request) {
         Cart cart = cartService.getCart();
-        Order createdOrder = orderCreator.from(request, cart);
+        Order createdOrder = orderCreator.from(request.customerDto(), cart);
         Order order = orderRepository.save(createdOrder);
         paymentService.process(order, request.paymentDetails());
         cartService.clearCart();
@@ -56,8 +56,8 @@ class OrderManager {
     Order cancel(String id) {
         Order order = orderRepository.findById(id);
         if (order.getStatus() != OrderStatus.DELIVERED) {
+            shipmentService.cancel(id);
             order.setStatus(OrderStatus.ANNULLED);
-            //TODO 1 implement cancel logic
         }
         return orderRepository.save(order);
     }

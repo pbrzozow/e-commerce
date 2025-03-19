@@ -11,10 +11,14 @@ class ShipmentService {
     private final ShipmentPort shipmentPort;
 
 
-     ShipmentResponse ship(Order order){
+    ShipmentResponse ship(Order order) {
         ShippingAddress shippingAddress = mapToShippingAddress(order.getCustomerInfo().getOrderAddress());
-        ShipmentRequest shipmentRequest = new ShipmentRequest(order.getId(),shippingAddress);
+        ShipmentRequest shipmentRequest = new ShipmentRequest(order.getId(), shippingAddress);
         return shipmentPort.ship(shipmentRequest);
+    }
+
+    ShipmentResponse cancel(String orderId) {
+        return shipmentPort.cancel(orderId);
     }
 
     private ShippingAddress mapToShippingAddress(OrderAddress orderAddress) {
