@@ -2,7 +2,6 @@ package com.ecommerce.shop.order.domain;
 
 import com.ecommerce.shop.order.domain.shared.Cart;
 import com.ecommerce.shop.order.dto.AddressDto;
-import com.ecommerce.shop.order.dto.CreateOrderRequest;
 import com.ecommerce.shop.order.dto.CustomerDto;
 
 import java.time.LocalDateTime;

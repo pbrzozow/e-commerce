@@ -6,7 +6,6 @@ import com.ecommerce.shop.order.domain.shared.Item;
 import com.ecommerce.shop.order.dto.ItemDto;
 import com.ecommerce.shop.order.dto.exception.ItemNotFoundException;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 

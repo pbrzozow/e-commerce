@@ -20,7 +20,7 @@ class OrderConfiguration {
         PaymentService paymentService = new PaymentService(paymentPort);
         ShipmentService shipmentService = new ShipmentService(shipmentPort);
         OrderService orderService = new OrderService(orderRepository, stockFacade, paymentService, shipmentService, cartService, orderCreator);
-        return new OrderFacade(orderService, cartService);
+        return new OrderFacade(orderService);
     }
 
 
