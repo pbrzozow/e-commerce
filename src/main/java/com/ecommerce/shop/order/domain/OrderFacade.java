@@ -35,6 +35,12 @@ public class OrderFacade {
         return order.dto();
     }
 
+    public OrderDto delivered(String id) {
+        requireNonNull(id);
+        Order order = orderService.delivered(id);
+        return order.dto();
+    }
+
     public OrderDto cancel(String id) {
         requireNonNull(id);
         Order order = orderService.cancel(id);

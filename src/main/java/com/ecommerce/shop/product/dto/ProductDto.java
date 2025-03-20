@@ -1,20 +1,28 @@
 package com.ecommerce.shop.product.dto;
 
+import jakarta.annotation.Nonnull;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.PositiveOrZero;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Data
 @Builder
-@AllArgsConstructor
-@NoArgsConstructor
-public class ProductDto {
-    private String id;
-    private String name;
-    private Double price;
-    private Long availableAmount;
-    private String description;
-    private String image;
-    private CategoryDto category;
+public record ProductDto(
+        @NotEmpty
+        @NotNull
+        String id,
+        @NotNull
+        String name,
+        @PositiveOrZero
+        double price,
+        @NotNull
+        String description,
+        @NotNull
+        String image,
+        @NotNull
+        CategoryDto category
+) {
 }

@@ -1,17 +1,19 @@
 package com.ecommerce.shop.order.domain.cart;
 
-import com.ecommerce.infrastructure.authentication.CurrentUserGetter;
 import com.ecommerce.shop.order.domain.shared.Cart;
 import com.ecommerce.shop.order.domain.shared.Item;
 import com.ecommerce.shop.order.dto.ItemDto;
 import com.ecommerce.shop.order.dto.exception.ItemNotFoundException;
 import lombok.RequiredArgsConstructor;
 
+
 import java.util.ArrayList;
+
+import static com.ecommerce.infrastructure.authentication.CurrentUserGetter.getSignedInUserEmail;
 
 @RequiredArgsConstructor
 public class CartService {
-    private final CurrentUserGetter userGetter;
+
     private final ItemCreator itemCreator;
     private final CartRepository cartRepository;
 
@@ -65,10 +67,11 @@ public class CartService {
 
 
     public Cart getCart() {
-        String username = userGetter.getSignedInUsername().orElseThrow();
+        String username = getSignedInUserEmail().orElseThrow();
         Cart cart = cartRepository.findByUsername(username);
         return cart != null ? cartWithPrice(cart) : initializeCart(username);
     }
+
 
     private static Cart initializeCart(String username) {
         return new Cart(username, new ArrayList<>(), 0);

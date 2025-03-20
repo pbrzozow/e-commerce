@@ -10,10 +10,10 @@ class CreditCardValidator {
     private static final Pattern CARD_NUMBER_PATTERN = Pattern.compile("^\\d{13,19}$");
 
     public static boolean validate(CreditCard card) {
-        return isValidCardNumber(card.getCardNumber()) &&
-                isValidExpirationDate(card.getExpirationDate()) &&
-                isValidCvv(card.getCvv()) &&
-                isValidCardHolderName(card.getCardHolderName());
+        return isValidCardNumber(card.cardNumber()) &&
+                isValidExpirationDate(card.expirationDate()) &&
+                isValidCvv(card.cvv()) &&
+                isValidCardHolderName(card.cardHolderName());
     }
 
     public static boolean isValidCardNumber(String cardNumber) {

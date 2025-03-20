@@ -7,13 +7,13 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 class CartConfiguration {
 
-    CartService cartService(CurrentUserGetter currentUserGetter) {
+    CartService cartService() {
         InMemoryCartRepository cartRepository = new InMemoryCartRepository();
-        return cartService(currentUserGetter, cartRepository);
+        return cartService(cartRepository);
     }
 
     @Bean
-    CartService cartService(CurrentUserGetter currentUserGetter, CartRepository cartRepository) {
+    CartService cartService(CartRepository cartRepository) {
         ItemCreator itemCreator = new ItemCreator();
         return new CartService(currentUserGetter, itemCreator, cartRepository);
     }

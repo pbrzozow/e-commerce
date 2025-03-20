@@ -24,7 +24,7 @@ public class CartFacadeTest {
     @BeforeEach
     void setUp() {
         CurrentUserGetter currentUserGetter = mock();
-        when(currentUserGetter.getSignedInUsername()).thenReturn(Optional.of("Kasia"));
+        when(currentUserGetter.getSignedInUserEmail()).thenReturn(Optional.of("Kasia"));
         cartService = new CartConfiguration().cartService(currentUserGetter);
     }
 

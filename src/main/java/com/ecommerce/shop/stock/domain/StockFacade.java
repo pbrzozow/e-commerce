@@ -22,14 +22,16 @@ public class StockFacade {
         ProductStock stock = stockService.getStock(productId);
         return stock.dto();
     }
-    public StockDto allocate(String productId,long amount){
+
+    public StockDto allocate(String productId, long amount) {
         requireNonNull(productId);
+        validateQuantity(amount);
         ProductStock stock = stockService.allocate(productId, amount);
         return stock.dto();
     }
 
     private static void validateQuantity(long quantity) {
-        if (quantity <0){
+        if (quantity < 0) {
             throw new IllegalArgumentException("Provided quantity was below zero.");
         }
     }

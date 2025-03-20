@@ -17,8 +17,8 @@ class ShipmentService {
         return shipmentPort.ship(shipmentRequest);
     }
 
-    ShipmentResponse cancel(String orderId) {
-        return shipmentPort.cancel(orderId);
+    void cancel(String orderId) {
+        shipmentPort.cancel(orderId);
     }
 
     private ShippingAddress mapToShippingAddress(OrderAddress orderAddress) {

@@ -8,15 +8,15 @@ import java.util.Optional;
 
 public class CurrentUserGetter {
 
-    public Optional<String> getSignedInUsername(){
-        String username = null;
+    public static Optional<String> getSignedInUserEmail() {
+        String email = null;
         SecurityContext context = SecurityContextHolder.getContext();
-        if (context!=null) {
+        if (context != null) {
             Authentication authentication = context.getAuthentication();
-            if (authentication!=null){
-                username = authentication.getName();
+            if (authentication != null) {
+                email = authentication.getName();
             }
         }
-        return Optional.ofNullable(username);
+        return Optional.ofNullable(email);
     }
 }

@@ -18,8 +18,7 @@ class Product {
     @Id
     private String id;
     private String name;
-    private Double price;
-    private Long availableAmount;
+    private double price;
     private String description;
     private String image;
     private Category category;
@@ -29,7 +28,6 @@ class Product {
                 .id(id)
                 .name(name)
                 .price(price)
-                .availableAmount(availableAmount)
                 .description(description)
                 .image(image)
                 .category(category.dto())

@@ -1,4 +1,7 @@
 package com.ecommerce.shop.user.domain;
 
-class UserFacade {
+import lombok.RequiredArgsConstructor;
+
+@RequiredArgsConstructor
+public class UserFacade {
 }

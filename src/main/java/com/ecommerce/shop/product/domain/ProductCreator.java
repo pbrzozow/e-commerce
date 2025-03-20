@@ -3,15 +3,14 @@ package com.ecommerce.shop.product.domain;
 import com.ecommerce.shop.product.dto.ProductDto;
 
 class ProductCreator {
-    Product from(ProductDto dto){
+    Product from(ProductDto dto) {
         return Product.builder()
-                .id(dto.getId())
-                .name(dto.getName())
-                .price(dto.getPrice())
-                .availableAmount(dto.getAvailableAmount())
-                .description(dto.getDescription())
-                .image(dto.getImage())
-                .category(Category.valueOf(dto.getCategory().name()))
+                .id(dto.id())
+                .name(dto.name())
+                .price(dto.price())
+                .description(dto.description())
+                .image(dto.image())
+                .category(Category.valueOf(dto.category().name()))
                 .build();
     }
 }
