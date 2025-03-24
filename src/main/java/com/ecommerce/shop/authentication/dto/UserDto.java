@@ -1,4 +1,4 @@
 package com.ecommerce.shop.authentication.dto;
 
-class UserDto {
+public record UserDto(String email) {
 }

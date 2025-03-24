@@ -1,5 +1,6 @@
 package com.ecommerce.shop.authentication.domain;
 
+import com.ecommerce.shop.authentication.dto.UserDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -28,5 +29,9 @@ class User implements UserDetails {
     @Override
     public String getUsername() {
         return email;
+    }
+
+    UserDto dto() {
+        return new UserDto(email);
     }
 }

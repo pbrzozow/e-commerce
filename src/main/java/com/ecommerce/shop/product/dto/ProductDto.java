@@ -11,8 +11,6 @@ import lombok.NoArgsConstructor;
 
 @Builder
 public record ProductDto(
-        @NotEmpty
-        @NotNull
         String id,
         @NotNull
         String name,

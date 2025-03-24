@@ -1,6 +1,7 @@
 package com.ecommerce.infrastructure.redis;
 
 import com.ecommerce.shop.order.domain.shared.Cart;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -19,11 +20,22 @@ public class RedisConfig {
     }
 
     @Bean
+    @Qualifier("cartRedisTemplate")
     public RedisTemplate<String, Cart> cartRedisTemplate(RedisConnectionFactory redisConnectionFactory) {
         RedisTemplate<String, Cart> template = new RedisTemplate<>();
         template.setConnectionFactory(redisConnectionFactory);
         template.setKeySerializer(new StringRedisSerializer());
         template.setValueSerializer(new GenericJackson2JsonRedisSerializer());
+        return template;
+    }
+
+    @Bean
+    @Qualifier("tokenRedisTemplate")
+    public RedisTemplate<String, String> tokenRedisTemplate(RedisConnectionFactory redisConnectionFactory) {
+        RedisTemplate<String, String> template = new RedisTemplate<>();
+        template.setConnectionFactory(redisConnectionFactory);
+        template.setKeySerializer(new StringRedisSerializer());
+        template.setValueSerializer(new StringRedisSerializer());
         return template;
     }
 }

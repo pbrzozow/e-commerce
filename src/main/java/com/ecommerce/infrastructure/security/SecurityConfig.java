@@ -31,7 +31,7 @@ class SecurityConfig {
         http
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(request -> request
-                        .requestMatchers("/cart/**", "/order")
+                        .requestMatchers("/*")
                         .permitAll()
                         .anyRequest().hasRole("ADMIN"));
         return http.build();
