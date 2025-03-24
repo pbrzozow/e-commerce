@@ -18,8 +18,8 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 public class ProductFacadeTest {
     private ProductFacade productFacade;
 
-    private final ProductDto bag = createProductDto("001","Leather Bag",40.5);
-    private final ProductDto wallet = createProductDto("002","Leather wallet", 20.5);
+    private final ProductDto bag = createProductDto("001", "Leather Bag", 40.5);
+    private final ProductDto wallet = createProductDto("002", "Leather wallet", 20.5);
 
     @BeforeEach
     void setUp() {
@@ -27,37 +27,39 @@ public class ProductFacadeTest {
     }
 
     @Test
-    void shouldReturnSavedProduct(){
+    void shouldReturnSavedProduct() {
         productFacade.add(bag);
         Page<ProductDto> products = productFacade.findAll(Pageable.ofSize(10));
-        assertEquals(List.of(bag),products.stream().toList());
+        assertEquals(List.of(bag), products.stream().toList());
     }
 
     @Test
-    void shouldFindSavedProductById(){
+    void shouldFindSavedProductById() {
 
         productFacade.add(bag);
-        ProductDto product = productFacade.show(bag.getId());
-        assertEquals(bag,product);
+        ProductDto product = productFacade.show(bag.id());
+        assertEquals(bag, product);
     }
+
     @Test
-    void shouldSaveProductSuccessfully(){
+    void shouldSaveProductSuccessfully() {
 
         productFacade.add(bag);
         productFacade.add(wallet);
 
-        ProductDto retrievedBag = productFacade.show(bag.getId());
-        ProductDto retrievedWallet = productFacade.show(wallet.getId());
+        ProductDto retrievedBag = productFacade.show(bag.id());
+        ProductDto retrievedWallet = productFacade.show(wallet.id());
 
-        assertEquals(bag,retrievedBag);
-        assertEquals(wallet,retrievedWallet);
+        assertEquals(bag, retrievedBag);
+        assertEquals(wallet, retrievedWallet);
     }
+
     @Test
-    void shouldThrowExceptionWhenProductDoesNotExist(){
-        assertThrows(ProductNotFoundException.class,()->productFacade.show(bag.getId()));
+    void shouldThrowExceptionWhenProductDoesNotExist() {
+        assertThrows(ProductNotFoundException.class, () -> productFacade.show(bag.id()));
     }
 
-    static private ProductDto createProductDto(String id,String name, Double price ) {
+    static private ProductDto createProductDto(String id, String name, Double price) {
         return ProductDto.builder()
                 .id(id)
                 .name(name)

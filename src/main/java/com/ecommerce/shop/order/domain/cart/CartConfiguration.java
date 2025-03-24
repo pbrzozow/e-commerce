@@ -15,6 +15,6 @@ class CartConfiguration {
     @Bean
     CartService cartService(CartRepository cartRepository) {
         ItemCreator itemCreator = new ItemCreator();
-        return new CartService(currentUserGetter, itemCreator, cartRepository);
+        return new CartService(itemCreator, cartRepository);
     }
 }

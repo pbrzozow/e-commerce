@@ -37,6 +37,11 @@ class InMemoryOrderRepository implements OrderRepository {
     }
 
     @Override
+    public List<Order> findAllByCustomerInfo_Email(String email) {
+        return List.of();
+    }
+
+    @Override
     public <S extends Order> S insert(S entity) {
         return null;
     }
