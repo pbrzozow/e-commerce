@@ -21,21 +21,23 @@ class ShipmentService {
     }
 
     Shipment delivered(String id) {
-        Shipment shipment = shipmentRepository.findByOrderId(id);
-        if (shipment == null) {
-            throw new ShipmentNotFound(id);
-        }
+        Shipment shipment = getShipment(id);
         shipment.setStatus(Status.DELIVERED);
         eventPublisher.publishEvent(new ShipmentDeliveredEvent(this, id));
         return shipmentRepository.save(shipment);
 
     }
 
-    Shipment cancel(String id) {
+    private Shipment getShipment(String id) {
         Shipment shipment = shipmentRepository.findByOrderId(id);
         if (shipment == null) {
             throw new ShipmentNotFound(id);
         }
+        return shipment;
+    }
+
+    Shipment cancel(String id) {
+        Shipment shipment = getShipment(id);
         shipment.setStatus(Status.CANCELLED);
         return shipmentRepository.save(shipment);
     }

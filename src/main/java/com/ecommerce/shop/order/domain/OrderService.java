@@ -93,6 +93,10 @@ class OrderService {
         return orderRepository.findAllByCustomerInfo_Email(username);
     }
 
+    List<Order> getAllOrders() {
+        return orderRepository.findAll();
+    }
+
     @Scheduled(cron = "*/30 * * * * *")
     void simulateOrderProcessing() {
         List<Order> createdOrders = orderRepository.findAllByStatus(OrderStatus.CREATED);
@@ -106,4 +110,7 @@ class OrderService {
     }
 
 
+    Order getOrder(String id) {
+        return findById(id);
+    }
 }

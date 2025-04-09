@@ -1,6 +1,7 @@
 package com.ecommerce.shop.product;
 
 import com.ecommerce.shop.product.domain.ProductFacade;
+import com.ecommerce.shop.product.dto.CategoryDto;
 import com.ecommerce.shop.product.dto.ProductDto;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -32,5 +33,11 @@ class ProductController {
     ResponseEntity<ProductDto> addProduct(@RequestBody @Valid ProductDto productDto) {
         ProductDto product = productFacade.add(productDto);
         return ResponseEntity.status(HttpStatus.CREATED).body(product);
+    }
+
+    @GetMapping("/products/{category}")
+    ResponseEntity<Page<ProductDto>> getProductsByCategory(@PathVariable("category") CategoryDto categoryDto, Pageable pageable) {
+        Page<ProductDto> productPage = productFacade.findByCategory(categoryDto, pageable);
+        return ResponseEntity.ok(productPage);
     }
 }

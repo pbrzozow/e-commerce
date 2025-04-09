@@ -5,6 +5,7 @@ import com.ecommerce.shop.order.domain.shared.Item;
 import com.ecommerce.shop.order.dto.ItemDto;
 import com.ecommerce.shop.order.dto.exception.ItemNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 
 import java.util.ArrayList;
@@ -67,7 +68,7 @@ public class CartService {
 
 
     public Cart getCart() {
-        String username = getSignedInUserEmail().orElseThrow();
+        String username = getSignedInUserEmail().orElseThrow(() -> new UsernameNotFoundException("Cannot find a username."));
         Cart cart = cartRepository.findByUsername(username);
         return cart != null ? cartWithPrice(cart) : initializeCart(username);
     }

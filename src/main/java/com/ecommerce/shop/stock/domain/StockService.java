@@ -3,7 +3,6 @@ package com.ecommerce.shop.stock.domain;
 import com.ecommerce.shop.stock.dto.InsufficientStockException;
 import lombok.RequiredArgsConstructor;
 
-import static java.util.Objects.requireNonNull;
 
 @RequiredArgsConstructor
 class StockService {
@@ -19,17 +18,18 @@ class StockService {
 
     ProductStock getStock(String productId) {
         ProductStock stock = stockRepository.findByProductId(productId);
-        if (stock==null){
+        if (stock == null) {
             stock = new ProductStock();
             stock.setProductId(productId);
         }
         return stock;
     }
-    ProductStock allocate(String productId, long amount){
+
+    ProductStock allocate(String productId, long amount) {
         ProductStock stock = getStock(productId);
-        if (stock.getAvailable()-amount<0){
-            throw new InsufficientStockException("");
+        if (stock.getAvailable() - amount < 0) {
+            throw new InsufficientStockException("Product amount is insufficient.");
         }
-        return update(productId,amount);
+        return update(productId, stock.getAvailable() - amount);
     }
 }

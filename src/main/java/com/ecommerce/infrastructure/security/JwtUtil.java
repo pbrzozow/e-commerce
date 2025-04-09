@@ -4,6 +4,7 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
@@ -12,13 +13,16 @@ import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
 @Component
-@RequiredArgsConstructor
 public class JwtUtil {
     private final Long ACCESS_EXPIRATION = 1000 * 60 * 15L;
     private final Long REFRESH_EXPIRATION = 1000 * 60 * 60 * 24L;
     @Value("${security.jwt.secret}")
     private String secret;
     private final RedisTemplate<String, String> redisTemplate;
+
+    public JwtUtil(@Qualifier("tokenRedisTemplate") RedisTemplate<String, String> redisTemplate) {
+        this.redisTemplate = redisTemplate;
+    }
 
     public String generateAccessToken(String username) {
         return generateToken(username, ACCESS_EXPIRATION);
@@ -46,7 +50,7 @@ public class JwtUtil {
         return extractAllClaims(token).getSubject();
     }
 
-    private boolean isTokenExpired(String token) {
+    boolean isTokenExpired(String token) {
         return extractAllClaims(token).getExpiration().before(new Date());
     }
 

@@ -31,6 +31,27 @@ public class JwtAuthFilter extends OncePerRequestFilter {
             token = authorizationHeader.substring(7);
             username = jwtUtil.extractUsername(token);
         }
+
+        if (token != null && jwtUtil.isTokenExpired(token)) {
+            String refreshToken = request.getHeader("Refresh-Token");
+            if (refreshToken != null && jwtUtil.validateToken(refreshToken, username)) {
+                String newAccessToken = jwtUtil.generateAccessToken(username);
+                response.setHeader("Authorization", "Bearer " + newAccessToken);
+
+                UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+                UsernamePasswordAuthenticationToken authenticationToken =
+                        new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+                authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+                SecurityContextHolder.getContext().setAuthentication(authenticationToken);
+
+                chain.doFilter(request, response);
+                return;
+            } else {
+                response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Refresh token is invalid or expired");
+                return;
+            }
+        }
+
         if (token != null && jwtUtil.isTokenBlacklisted(token)) {
             response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Token is blacklisted");
             return;
@@ -49,4 +70,5 @@ public class JwtAuthFilter extends OncePerRequestFilter {
 
         chain.doFilter(request, response);
     }
+
 }
