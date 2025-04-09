@@ -36,8 +36,8 @@ class ProductController {
     }
 
     @GetMapping("/products/{category}")
-    ResponseEntity<Page<ProductDto>> getProductsByCategory(@PathVariable("category") CategoryDto categoryDto, Pageable pageable) {
-        Page<ProductDto> productPage = productFacade.findByCategory(categoryDto, pageable);
+    ResponseEntity<Page<ProductDto>> getProductsByCategory(@PathVariable("category") String category, Pageable pageable) {
+        Page<ProductDto> productPage = productFacade.findByCategory(category, pageable);
         return ResponseEntity.ok(productPage);
     }
 }

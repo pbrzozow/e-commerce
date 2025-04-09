@@ -5,7 +5,7 @@ import com.ecommerce.shop.order.domain.cart.CartService;
 import com.ecommerce.shop.order.domain.shared.Cart;
 import com.ecommerce.shop.order.domain.shared.Item;
 import com.ecommerce.shop.order.dto.CreateOrderRequest;
-import com.ecommerce.shop.stock.domain.StockFacade;
+import com.ecommerce.shop.product.domain.ProductFacade;
 import lombok.RequiredArgsConstructor;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,11 +16,11 @@ import java.util.List;
 @RequiredArgsConstructor
 class OrderService {
     private final OrderRepository orderRepository;
-    private final StockFacade stockFacade;
     private final PaymentService paymentService;
     private final ShipmentService shipmentService;
     private final CartService cartService;
     private final OrderCreator orderCreator;
+    private final ProductFacade productFacade;
 
     Order create(CreateOrderRequest request) {
         Cart cart = cartService.getCart();
@@ -49,7 +49,7 @@ class OrderService {
     private void allocateStock(List<Item> items) {
         for (Item item : items) {
             String productId = item.getProductId();
-            stockFacade.allocate(productId, item.getQuantity());
+            productFacade.allocateStock(productId, item.getQuantity());
         }
     }
 
@@ -89,7 +89,7 @@ class OrderService {
     }
 
     List<Order> getUserOrders() {
-        String username = CurrentUserGetter.getSignedInUserEmail().orElseThrow();
+        String username = CurrentUserGetter.getSignedInUserEmail();
         return orderRepository.findAllByCustomerInfo_Email(username);
     }
 

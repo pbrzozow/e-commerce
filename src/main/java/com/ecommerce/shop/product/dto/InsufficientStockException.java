@@ -1,4 +1,4 @@
-package com.ecommerce.shop.stock.dto;
+package com.ecommerce.shop.product.dto;
 
 public class InsufficientStockException extends RuntimeException {
     public InsufficientStockException(String message) {

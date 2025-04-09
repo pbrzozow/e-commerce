@@ -1,6 +1,7 @@
 package com.ecommerce.shop.product.domain;
 
 import com.ecommerce.shop.product.dto.CategoryDto;
+import com.ecommerce.shop.product.dto.InsufficientStockException;
 import com.ecommerce.shop.product.dto.ProductDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -34,10 +35,22 @@ public class ProductFacade {
                 .map(Product::dto);
     }
 
-    public Page<ProductDto> findByCategory(CategoryDto categoryDto, Pageable pageable) {
+    public Page<ProductDto> findByCategory(String categoryDto, Pageable pageable) {
         requireNonNull(categoryDto);
-        Category category = Category.valueOf(categoryDto.name());
+        Category category = Category.valueOf(categoryDto);
         return productRepository.findAllByCategory(category, pageable)
                 .map(Product::dto);
+    }
+
+    public ProductDto allocateStock(String productId, long wantedAmount) {
+        requireNonNull(productId);
+        Product product = productRepository.findOneOrThrow(productId);
+        long currentAmount = product.getAmount();
+        if (currentAmount - wantedAmount < 0) {
+            throw new InsufficientStockException("Product wantedAmount is insufficient.");
+        }
+        product.setAmount(currentAmount - wantedAmount);
+        product = productRepository.save(product);
+        return product.dto();
     }
 }

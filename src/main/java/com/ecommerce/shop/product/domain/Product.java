@@ -18,6 +18,7 @@ class Product {
     @Id
     private String id;
     private String name;
+    private long amount;
     private double price;
     private String description;
     private String image;
@@ -27,6 +28,7 @@ class Product {
         return ProductDto.builder()
                 .id(id)
                 .name(name)
+                .amount(amount)
                 .price(price)
                 .description(description)
                 .image(image)

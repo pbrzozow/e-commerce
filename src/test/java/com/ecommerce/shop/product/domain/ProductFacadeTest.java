@@ -4,6 +4,7 @@ package com.ecommerce.shop.product.domain;
 import com.ecommerce.shop.product.dto.CategoryDto;
 import com.ecommerce.shop.product.dto.ProductDto;
 import com.ecommerce.shop.product.dto.ProductNotFoundException;
+import com.ecommerce.shop.product.dto.InsufficientStockException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.data.domain.Page;
@@ -59,10 +60,29 @@ public class ProductFacadeTest {
         assertThrows(ProductNotFoundException.class, () -> productFacade.show(bag.id()));
     }
 
+    @Test
+    void shouldAllocateStockSuccessfully() {
+        productFacade.add(bag);
+        String productId = bag.id();
+        productFacade.allocateStock(productId, 6);
+
+        ProductDto product = productFacade.show(productId);
+
+        assertEquals("001", product.id());
+        assertEquals(4, product.amount());
+    }
+
+    @Test
+    void shouldThrowExceptionWhenStockIsInsufficient() {
+        productFacade.add(bag);
+        assertThrows(InsufficientStockException.class, () -> productFacade.allocateStock(bag.id(), 20));
+    }
+
     static private ProductDto createProductDto(String id, String name, Double price) {
         return ProductDto.builder()
                 .id(id)
                 .name(name)
+                .amount(10)
                 .price(price)
                 .category(CategoryDto.LEATHER)
                 .build();

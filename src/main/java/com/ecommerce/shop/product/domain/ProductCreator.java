@@ -7,6 +7,7 @@ class ProductCreator {
         return Product.builder()
                 .id(dto.id())
                 .name(dto.name())
+                .amount(dto.amount())
                 .price(dto.price())
                 .description(dto.description())
                 .image(dto.image())

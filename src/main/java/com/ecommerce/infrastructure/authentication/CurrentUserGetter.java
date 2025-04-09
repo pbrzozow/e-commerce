@@ -6,9 +6,11 @@ import org.springframework.security.core.context.SecurityContextHolder;
 
 import java.util.Optional;
 
+import static org.springframework.util.StringUtils.hasText;
+
 public class CurrentUserGetter {
 
-    public static Optional<String> getSignedInUserEmail() {
+    public static String getSignedInUserEmail() {
         String email = null;
         SecurityContext context = SecurityContextHolder.getContext();
         if (context != null) {
@@ -17,6 +19,6 @@ public class CurrentUserGetter {
                 email = authentication.getName();
             }
         }
-        return Optional.ofNullable(email);
+        return (hasText(email)) ? email : "anonymous";
     }
 }

@@ -8,7 +8,8 @@ import com.ecommerce.shop.order.domain.spi.ShipmentPort;
 import com.ecommerce.shop.order.domain.spi.dto.PaymentResponse;
 import com.ecommerce.shop.order.domain.spi.dto.PaymentStatus;
 import com.ecommerce.shop.order.dto.*;
-import com.ecommerce.shop.stock.domain.StockFacade;
+import com.ecommerce.shop.product.domain.ProductFacade;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -34,12 +35,12 @@ class OrderFacadeTest {
     void setUp() {
         ShipmentPort shipmentPort = mock();
         PaymentPort paymentPort = mock();
-        StockFacade stockFacade = mock();
+        ProductFacade productFacade = mock();
         CartService cartService = mock();
         when(paymentPort.process(any())).thenReturn(new PaymentResponse("1", PaymentStatus.SUCCESSFUL));
         when(cartService.getCart()).thenReturn(new Cart("Kasia", List.of(new Item("1", "Bag", "ww.a.com", 40, 5)), 200.0));
         when(paymentPort.refund(any())).thenReturn(new PaymentResponse("0", PaymentStatus.SUCCESSFUL));
-        orderFacade = new OrderConfiguration().orderFacade(paymentPort, shipmentPort, stockFacade, cartService);
+        orderFacade = new OrderConfiguration().orderFacade(paymentPort, shipmentPort, cartService, productFacade);
         order = orderFacade.create(orderRequest);
     }
 

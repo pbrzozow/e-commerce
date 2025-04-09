@@ -15,6 +15,8 @@ public record ProductDto(
         @NotNull
         String name,
         @PositiveOrZero
+        long amount,
+        @PositiveOrZero
         double price,
         @NotNull
         String description,

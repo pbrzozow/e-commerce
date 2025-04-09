@@ -68,7 +68,7 @@ public class CartService {
 
 
     public Cart getCart() {
-        String username = getSignedInUserEmail().orElseThrow(() -> new UsernameNotFoundException("Cannot find a username."));
+        String username = getSignedInUserEmail();
         Cart cart = cartRepository.findByUsername(username);
         return cart != null ? cartWithPrice(cart) : initializeCart(username);
     }
