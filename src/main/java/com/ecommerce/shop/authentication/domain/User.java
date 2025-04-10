@@ -16,7 +16,7 @@ import java.util.List;
 @NoArgsConstructor
 @Data
 @Builder
-class User implements UserDetails {
+public class User implements UserDetails {
     private String email;
     private String password;
     private Role role;

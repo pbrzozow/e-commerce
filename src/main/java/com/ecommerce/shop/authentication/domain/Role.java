@@ -1,5 +1,5 @@
 package com.ecommerce.shop.authentication.domain;
 
-enum Role {
+public enum Role {
     ADMIN, USER
 }
