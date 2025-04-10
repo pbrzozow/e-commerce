@@ -32,21 +32,6 @@ public class AuthenticationFacade {
         return Map.of();
     }
 
-    public Map<String, String> refreshAccessToken(String refreshToken) {
-        try {
-            String email = jwtUtil.extractUsername(refreshToken);
-            userRepository.findByEmail(email);
-
-            if (jwtUtil.validateToken(refreshToken, email)) {
-                String newAccessToken = jwtUtil.generateAccessToken(email);
-                return Map.of("accessToken", newAccessToken);
-            } else {
-                throw new RuntimeException("Invalid refresh token");
-            }
-        } catch (Exception e) {
-            throw new RuntimeException("Failed to refresh token: " + e.getMessage());
-        }
-    }
 
     public UserDto register(CreateUserDto createUserDto) {
         User user = userCreator.toEntity(createUserDto);

@@ -31,12 +31,6 @@ class AuthController {
         return ResponseEntity.status(HttpStatus.CREATED).body(user);
     }
 
-    @PostMapping("/refresh")
-    ResponseEntity<?> refreshToken(@RequestBody Map<String, String> request) {
-        String refreshToken = request.get("refreshToken");
-        Map<String, String> token = authenticationFacade.refreshAccessToken(refreshToken);
-        return ResponseEntity.ok(token);
-    }
 
     @PostMapping("/logout")
     ResponseEntity<?> logout(@RequestBody Map<String, String> request) {
