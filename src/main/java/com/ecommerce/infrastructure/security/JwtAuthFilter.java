@@ -1,5 +1,6 @@
 package com.ecommerce.infrastructure.security;
 
+import io.jsonwebtoken.ExpiredJwtException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -29,8 +30,13 @@ public class JwtAuthFilter extends OncePerRequestFilter {
 
         if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
             token = authorizationHeader.substring(7);
-            username = jwtUtil.extractUsername(token);
+            try {
+                username = jwtUtil.extractUsername(token);
+            } catch (ExpiredJwtException ex) {
+                username = ex.getClaims().getSubject();
+            }
         }
+
 
         if (token != null && jwtUtil.isTokenExpired(token)) {
             String refreshToken = request.getHeader("Refresh-Token");

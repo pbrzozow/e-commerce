@@ -39,7 +39,7 @@ class OrderFacadeTest {
         CartService cartService = mock();
         when(paymentPort.process(any())).thenReturn(new PaymentResponse("1", PaymentStatus.SUCCESSFUL));
         when(cartService.getCart()).thenReturn(new Cart("Kasia", List.of(new Item("1", "Bag", "ww.a.com", 40, 5)), 200.0));
-        when(paymentPort.refund(any())).thenReturn(new PaymentResponse("0", PaymentStatus.SUCCESSFUL));
+        when(paymentPort.refund(any())).thenReturn(new PaymentResponse("0", PaymentStatus.REFUNDED));
         orderFacade = new OrderConfiguration().orderFacade(paymentPort, shipmentPort, cartService, productFacade);
         order = orderFacade.create(orderRequest);
     }

@@ -10,9 +10,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 class AuthConfig {
 
     @Bean
-    AuthenticationFacade authenticationFacade(JwtUtil jwtUtil, AuthenticationManager authManager,
-                                              PasswordEncoder passwordEncoder, UserRepository userRepository) {
+    AuthFacade authenticationFacade(JwtUtil jwtUtil, AuthenticationManager authManager,
+                                    PasswordEncoder passwordEncoder, UserRepository userRepository) {
         UserCreator userCreator = new UserCreator(passwordEncoder);
-        return new AuthenticationFacade(jwtUtil, authManager, userCreator, userRepository);
+        return new AuthFacade(jwtUtil, authManager, userCreator, userRepository);
     }
 }

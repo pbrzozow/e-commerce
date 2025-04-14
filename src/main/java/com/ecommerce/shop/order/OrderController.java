@@ -15,7 +15,7 @@ import java.util.List;
 class OrderController {
     private final OrderFacade orderFacade;
 
-    @PostMapping
+    @PostMapping("/orders")
     ResponseEntity<OrderDto> createOrder(@RequestBody CreateOrderRequest orderRequest) {
         OrderDto order = orderFacade.create(orderRequest);
         return ResponseEntity.status(HttpStatus.CREATED).body(order);

@@ -26,7 +26,7 @@ class PaymentService {
     PaymentResponse refund(String orderId) {
         RefundRequest request = new RefundRequest(orderId);
         PaymentResponse response = paymentPort.refund(request);
-        if (response.paymentStatus() != PaymentStatus.SUCCESSFUL) {
+        if (response.paymentStatus() != PaymentStatus.REFUNDED) {
             throw new RefundFailureException(orderId);
         }
         return response;

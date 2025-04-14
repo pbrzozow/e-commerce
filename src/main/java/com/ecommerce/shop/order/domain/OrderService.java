@@ -5,6 +5,7 @@ import com.ecommerce.shop.order.domain.cart.CartService;
 import com.ecommerce.shop.order.domain.shared.Cart;
 import com.ecommerce.shop.order.domain.shared.Item;
 import com.ecommerce.shop.order.dto.CreateOrderRequest;
+import com.ecommerce.shop.order.dto.exception.OrderNotFoundException;
 import com.ecommerce.shop.product.domain.ProductFacade;
 import lombok.RequiredArgsConstructor;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -42,8 +43,8 @@ class OrderService {
     }
 
     private Order findById(String id) {
-        return orderRepository.findById(id).orElseThrow();
-
+        return orderRepository.findById(id)
+                .orElseThrow(() ->new OrderNotFoundException(id));
     }
 
     private void allocateStock(List<Item> items) {

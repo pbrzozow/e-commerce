@@ -1,6 +1,6 @@
 package com.ecommerce.shop.authentication;
 
-import com.ecommerce.shop.authentication.domain.AuthenticationFacade;
+import com.ecommerce.shop.authentication.domain.AuthFacade;
 import com.ecommerce.shop.authentication.dto.AuthRequest;
 import com.ecommerce.shop.authentication.dto.CreateUserDto;
 import com.ecommerce.shop.authentication.dto.UserDto;
@@ -17,17 +17,17 @@ import java.util.Map;
 @RestController
 @RequiredArgsConstructor
 class AuthController {
-    private final AuthenticationFacade authenticationFacade;
+    private final AuthFacade authFacade;
 
     @PostMapping("/login")
     ResponseEntity<?> login(@RequestBody @Valid AuthRequest authRequest) {
-        Map<String, String> tokens = authenticationFacade.authenticate(authRequest.email(), authRequest.password());
+        Map<String, String> tokens = authFacade.authenticate(authRequest.email(), authRequest.password());
         return ResponseEntity.ok(tokens);
     }
 
     @PostMapping("/register")
     ResponseEntity<?> register(@RequestBody @Valid CreateUserDto userDto) {
-        UserDto user = authenticationFacade.register(userDto);
+        UserDto user = authFacade.register(userDto);
         return ResponseEntity.status(HttpStatus.CREATED).body(user);
     }
 
@@ -38,7 +38,7 @@ class AuthController {
         if (refreshToken == null || refreshToken.isEmpty()) {
             return ResponseEntity.badRequest().body("Refresh token is required");
         }
-        authenticationFacade.logout(refreshToken);
+        authFacade.logout(refreshToken);
         return ResponseEntity.ok("Successfully logged out");
     }
 }
