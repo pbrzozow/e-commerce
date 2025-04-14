@@ -25,7 +25,6 @@ class ShipmentService {
         shipment.setStatus(Status.DELIVERED);
         eventPublisher.publishEvent(new ShipmentDeliveredEvent(this, id));
         return shipmentRepository.save(shipment);
-
     }
 
     private Shipment getShipment(String id) {

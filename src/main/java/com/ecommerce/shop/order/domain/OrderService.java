@@ -8,8 +8,6 @@ import com.ecommerce.shop.order.dto.CreateOrderRequest;
 import com.ecommerce.shop.order.dto.exception.OrderNotFoundException;
 import com.ecommerce.shop.product.domain.ProductFacade;
 import lombok.RequiredArgsConstructor;
-import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -92,7 +90,7 @@ class OrderService {
 
     List<Order> getUserOrders() {
         String username = CurrentUserGetter.getSignedInUserEmail();
-        return orderRepository.findAllByCustomerInfo_Email(username);
+        return orderRepository.findAllByCart_Username(username);
     }
 
     List<Order> getAllOrders() {

@@ -13,7 +13,7 @@ interface OrderRepository extends MongoRepository<Order, String> {
 
     List<Order> findAllByStatus(OrderStatus orderStatus);
 
-    List<Order> findAllByCustomerInfo_Email(String email);
+    List<Order> findAllByCart_Username(String username);
 
 
 }

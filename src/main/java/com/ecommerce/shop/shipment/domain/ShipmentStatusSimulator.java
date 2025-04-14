@@ -8,12 +8,12 @@ import java.util.List;
 
 @Component
 @RequiredArgsConstructor
-class ShipmentStatusSimulator {
+public class ShipmentStatusSimulator {
     private final ShipmentRepository shipmentRepository;
     private final ShipmentFacade shipmentFacade;
 
     @Scheduled(cron = "0 */2 * * * *")
-    void simulateOrderShipping() {
+    public void simulateOrderShipping() {
         List<Shipment> shipments = shipmentRepository.findAllByStatus(Status.SHIPPING);
         shipments.forEach(shipment -> shipmentFacade.delivered(shipment.getOrderId()));
     }

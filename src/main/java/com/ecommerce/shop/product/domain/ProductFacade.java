@@ -37,7 +37,7 @@ public class ProductFacade {
 
     public Page<ProductDto> findByCategory(String categoryDto, Pageable pageable) {
         requireNonNull(categoryDto);
-        Category category = Category.valueOf(categoryDto);
+        Category category = Category.valueOf(categoryDto.toUpperCase());
         return productRepository.findAllByCategory(category, pageable)
                 .map(Product::dto);
     }

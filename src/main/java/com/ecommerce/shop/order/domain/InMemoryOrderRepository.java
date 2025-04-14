@@ -21,7 +21,7 @@ class InMemoryOrderRepository implements OrderRepository {
 
     @Override
     public boolean existsById(String s) {
-        return false;
+        return orders.get(s) != null;
     }
 
     public Order save(Order order) {
@@ -37,9 +37,10 @@ class InMemoryOrderRepository implements OrderRepository {
     }
 
     @Override
-    public List<Order> findAllByCustomerInfo_Email(String email) {
+    public List<Order> findAllByCart_Username(String username) {
         return List.of();
     }
+
 
     @Override
     public <S extends Order> S insert(S entity) {
