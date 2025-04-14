@@ -1,6 +1,5 @@
 package com.ecommerce.shop.product.domain;
 
-import com.ecommerce.shop.product.dto.CategoryDto;
 import com.ecommerce.shop.product.dto.InsufficientStockException;
 import com.ecommerce.shop.product.dto.ProductDto;
 import lombok.RequiredArgsConstructor;

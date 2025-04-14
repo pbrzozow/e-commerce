@@ -35,7 +35,7 @@ class ProductController {
         return ResponseEntity.status(HttpStatus.CREATED).body(product);
     }
 
-    @GetMapping("/products/{category}")
+    @GetMapping("/products/category/{category}")
     ResponseEntity<Page<ProductDto>> getProductsByCategory(@PathVariable("category") String category, Pageable pageable) {
         Page<ProductDto> productPage = productFacade.findByCategory(category, pageable);
         return ResponseEntity.ok(productPage);
