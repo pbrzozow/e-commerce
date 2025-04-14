@@ -35,8 +35,8 @@ public class ProductControllerTest {
     @WithMockUser
     void shouldReturnAllProducts() throws Exception {
         when(productFacade.findAll(any())).thenReturn(new PageImpl<>(List.of(
-                createSampleProducts("Bag"),
-                createSampleProducts("Shoes")
+                createSampleProducts("Bag",CategoryDto.BAG),
+                createSampleProducts("Shoes",CategoryDto.SHOES)
         )));
 
         mockMvc.perform(get("/products"))
@@ -46,11 +46,12 @@ public class ProductControllerTest {
                 .andExpect(jsonPath("$.content[1].name").value("Shoes"));
     }
 
-    private ProductDto createSampleProducts(String name) {
+    private ProductDto createSampleProducts(String name,CategoryDto category) {
         return ProductDto.builder()
                 .name(name)
-                .category(CategoryDto.LEATHER)
+                .category(category)
                 .price(6)
                 .build();
     }
+
 }

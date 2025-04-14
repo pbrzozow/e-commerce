@@ -19,8 +19,8 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 public class ProductFacadeTest {
     private ProductFacade productFacade;
 
-    private final ProductDto bag = createProductDto("001", "Leather Bag", 40.5);
-    private final ProductDto wallet = createProductDto("002", "Leather wallet", 20.5);
+    private final ProductDto bag = createProductDto("001", "Leather Bag", 40.5,CategoryDto.BAG);
+    private final ProductDto wallet = createProductDto("002", "Leather wallet", 20.5,CategoryDto.WALLET);
 
     @BeforeEach
     void setUp() {
@@ -78,13 +78,13 @@ public class ProductFacadeTest {
         assertThrows(InsufficientStockException.class, () -> productFacade.allocateStock(bag.id(), 20));
     }
 
-    static private ProductDto createProductDto(String id, String name, Double price) {
+    static private ProductDto createProductDto(String id, String name, Double price,CategoryDto categoryDto) {
         return ProductDto.builder()
                 .id(id)
                 .name(name)
                 .amount(10)
                 .price(price)
-                .category(CategoryDto.LEATHER)
+                .category(categoryDto)
                 .build();
     }
 }
