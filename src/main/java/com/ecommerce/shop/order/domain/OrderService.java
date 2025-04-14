@@ -9,6 +9,7 @@ import com.ecommerce.shop.order.dto.exception.OrderNotFoundException;
 import com.ecommerce.shop.product.domain.ProductFacade;
 import lombok.RequiredArgsConstructor;
 import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -97,19 +98,6 @@ class OrderService {
     List<Order> getAllOrders() {
         return orderRepository.findAll();
     }
-
-    @Scheduled(cron = "*/30 * * * * *")
-    void simulateOrderProcessing() {
-        List<Order> createdOrders = orderRepository.findAllByStatus(OrderStatus.CREATED);
-        createdOrders.forEach(order -> process(order.getId()));
-    }
-
-    @Scheduled(cron = "0 * * * * *")
-    void simulateOrderShipping() {
-        List<Order> processingOrders = orderRepository.findAllByStatus(OrderStatus.PROCESSING);
-        processingOrders.forEach(order -> ship(order.getId()));
-    }
-
 
     Order getOrder(String id) {
         return findById(id);

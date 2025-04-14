@@ -47,7 +47,8 @@ public class ProductFacade {
         Product product = productRepository.findOneOrThrow(productId);
         long currentAmount = product.getAmount();
         if (currentAmount - wantedAmount < 0) {
-            throw new InsufficientStockException("Product wantedAmount is insufficient.");
+            throw new InsufficientStockException(product.getName() +" stock is insufficient.");
+
         }
         product.setAmount(currentAmount - wantedAmount);
         product = productRepository.save(product);

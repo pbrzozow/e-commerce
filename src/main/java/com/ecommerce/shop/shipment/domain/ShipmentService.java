@@ -42,9 +42,5 @@ class ShipmentService {
         return shipmentRepository.save(shipment);
     }
 
-    @Scheduled(cron = "0 */2 * * * *")
-    void simulateOrderShipping() {
-        List<Shipment> shipments = shipmentRepository.findAllByStatus(Status.SHIPPING);
-        shipments.forEach(shipment -> delivered(shipment.getOrderId()));
-    }
+
 }
